@@ -1,0 +1,8 @@
+README.md
+setup.py
+treen/__init__.py
+treen.egg-info/PKG-INFO
+treen.egg-info/SOURCES.txt
+treen.egg-info/dependency_links.txt
+treen.egg-info/requires.txt
+treen.egg-info/top_level.txt
