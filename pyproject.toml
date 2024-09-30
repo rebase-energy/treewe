@@ -1,0 +1,18 @@
+[tool.ruff]
+# Enable autofix
+fix = true
+
+# Define the maximum line length
+line-length = 88
+
+# Exclude specific files or directories (optional)
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv_treen",
+    "*.ipynb",
+    "venv",
+    "tests/",
+]

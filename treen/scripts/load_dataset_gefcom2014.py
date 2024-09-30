@@ -1,4 +1,3 @@
-import sys
 import os
 import zipfile
 import shutil
@@ -46,7 +45,7 @@ def load_wind_track():
 
     site_names = ['Site'+str(i) for i in df.columns.levels[0]]
     df.columns = df.columns.set_levels(site_names, level=0)
-    
+
     # Convert to standard indexing structure (ref_datetime, valid_datetime)
     df.index.name = 'valid_datetime'
     idx_ref_datetime = df.index.hour == 1
@@ -90,7 +89,7 @@ def load_load_track():
         dfs.append(df)
     df = pd.concat(dfs)
 
-    # The dates are ambiguous so need to hardcode them. 
+    # The dates are ambiguous so need to hardcode them.
     df = df.drop(columns=['TIMESTAMP', 'ZONEID'])
     index = pd.date_range(start='2001-01-01 01:00', end='2011-12-01 00:00', freq='h')
     df.index = index
