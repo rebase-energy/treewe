@@ -10,9 +10,9 @@ def extract_zip(file):
     zip_ref.extractall(folder)
     zip_ref.close()
 
-def load_files(file_name, variables, farm_number):
+def load_files(file_name, variables, site_number):
     dfs = []
-    for i in range(1,farm_number+1):
+    for i in range(1,site_number+1):
         file = file_name.format(i)
         df = pd.read_csv(file, index_col=1, parse_dates=True)
         df = df.pivot_table(index='TIMESTAMP', columns=['ZONEID'], values=variables, dropna=False)
@@ -29,11 +29,11 @@ def load_wind_track():
     extract_zip('../data/gefcom2014/GEFCom2014 Data/Wind/Task 15/Task15_W_Zone1_10.zip')
     extract_zip('../data/gefcom2014/GEFCom2014 Data/Wind/Task 15/TaskExpVars15_W_Zone1_10.zip')
 
-    # Get all target data except for last task
-    df_task1_14 = load_files('../data/gefcom2014/GEFCom2014 Data/Wind/Task 15/Task15_W_Zone1_10/Task15_W_Zone{0}.csv', ['TARGETVAR', 'U10', 'V10', 'U100','V100'], 10)
+    # Get all target data and explanatory variables except for last task
+    df_task1_14 = load_files('../data/gefcom2014/GEFCom2014 Data/Wind/Task 15/Task15_W_Zone1_10/Task15_W_Zone{0}.csv', variables=['TARGETVAR', 'U10', 'V10', 'U100','V100'], site_number=10)
 
-    # Get explanatory variables data for all task
-    df_exp15 = load_files('../data/gefcom2014/GEFCom2014 Data/Wind/Task 15/TaskExpVars15_W_Zone1_10/TaskExpVars15_W_Zone{0}.csv', ['U10', 'V10', 'U100','V100'], 10)
+    # Get explanatory variables for last task
+    df_exp15 = load_files('../data/gefcom2014/GEFCom2014 Data/Wind/Task 15/TaskExpVars15_W_Zone1_10/TaskExpVars15_W_Zone{0}.csv', ['U10', 'V10', 'U100','V100'], site_number=10)
 
     # Get target data for last task
     df_target15 = pd.read_csv('../data/gefcom2014/GEFCom2014 Data/Wind/Solution to Task 15/solution15_W.csv', index_col=1, parse_dates=True)
@@ -42,6 +42,7 @@ def load_wind_track():
 
     df_task15 = pd.merge(df_target15, df_exp15, on='TIMESTAMP')
     df = pd.concat([df_task1_14, df_task15], axis=0)
+    df = df.rename(columns={'TARGETVAR': 'Power'}, level=1)
 
     site_names = ['Site'+str(i) for i in df.columns.levels[0]]
     df.columns = df.columns.set_levels(site_names, level=0)
