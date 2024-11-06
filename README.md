@@ -9,7 +9,7 @@
 [![Join us on Slack](https://img.shields.io/badge/Join%20us%20on%20Slack-%2362BEAF?style=flat&logo=slack&logoColor=white)](https://join.slack.com/t/rebase-community/shared_invite/zt-1dtd0tdo6-sXuCEy~zPnvJw4uUe~tKeA) 
 [![GitHub Repo stars](https://img.shields.io/github/stars/rebase-energy/treewe?style=social)](https://github.com/rebase-energy/treewe)
 
-```treewe``` is an open-source Python library that implements state-of-the-art energy and weather prediction models for use cases including as wind, solar and demand forecasting. It is using the [```enflow```](https://github.com/rebase-energy/enflow) structure to evaluate and benchmark prediction models in a reproducible manner. ```treewe``` lets you: 
+`treewe` is an open-source Python library that implements state-of-the-art energy and weather prediction models for use cases including as wind, solar and demand forecasting. It is using the [`enflow`](https://github.com/rebase-energy/enflow) structure to evaluate and benchmark prediction models in a reproducible manner. `treewe` lets you: 
 
 * 🛤️ Structure your code as modular and reusable components and adopt the "model first, then solve"-mantra;
 * 🌱 Forumate your problems with datasets, environments and objectives;
@@ -80,7 +80,7 @@ We welcome contributions from anyone interested in this project! Here are some w
 * Create a new predictor; 
 * Create a new benchmark dataset;
 * Create a new objective function; or
-* Add core functionality to ```treewe``;
+* Add core functionality to `treewe`;
 
 If you are interested in contributing, then feel free to join our [Community Slack](https://join.slack.com/t/rebase-community/shared_invite/zt-1dtd0tdo6-sXuCEy~zPnvJw4uUe~tKeA) so that we can discuss it. 
 
