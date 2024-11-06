@@ -11,7 +11,9 @@ setup(
         'treen': ['data/*.csv'],  # Specify the file types to include
     },
     install_requires=[
-    'enerflow>=0.0.1',  # Ensure you specify the correct version of enerflow
+    'EnergyDataModel>=0.0.1',  # Ensure you specify the correct version of enerflow
+    'enflow>=0.0.1',  # Ensure you specify the correct version of enerflow
+    'pvlib',
     'shap>=0.39.0',
     'lightgbm>=3.3.0',
     'xgboost>=1.5.0',

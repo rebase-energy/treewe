@@ -12,14 +12,14 @@
 `treewe` is an open-source Python library that implements state-of-the-art energy and weather prediction models for use cases including as wind, solar and demand forecasting. It is using the [`enflow`](https://github.com/rebase-energy/enflow) structure to evaluate and benchmark prediction models in a reproducible manner. `treewe` lets you: 
 
 * 🔄 Get a unified syntax for working with state-of-the-art tree-based predictor libraries such as [XGBoost](https://github.com/dmlc/xgboost), [LightGBM](https://github.com/microsoft/LightGBM), [CatBoost](https://github.com/catboost/catboost) and [Scikit-Learn](https://github.com/scikit-learn/scikit-learn);
-* 🌱 Run and evaluate pre-implemented prediction models on your own energy and weather datasets; and
-* Create your own prediction model and benchmark it against pre-implemented prediction models;
+* 📊 Run and evaluate pre-implemented prediction models on your own energy and weather datasets; and
+* 📈 Create your own prediction model and benchmark it against pre-implemented prediction models;
 
 **⬇️ [Installation](#installation)**
 &ensp;|&ensp;
 **📖 [Documentation](https://docs.energydatamodel.org/en/latest/)**
 &ensp;|&ensp;
-**🚀 [Try out now in Colab](https://colab.research.google.com/github/rebase-energy/treewe/blob/main/enerflow/examples/gefcom2014-wind.ipynb)**
+**🚀 [Try out now in Colab](https://colab.research.google.com/github/rebase-energy/treewe/blob/main/treewe/examples/gefcom2014-wind.ipynb)**
 &ensp;|&ensp;
 **👋 [Join Community Slack](https://join.slack.com/t/rebase-community/shared_invite/zt-1dtd0tdo6-sXuCEy~zPnvJw4uUe~tKeA)**
 
