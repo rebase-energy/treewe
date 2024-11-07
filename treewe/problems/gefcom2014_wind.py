@@ -5,6 +5,8 @@ import pandas as pd
 import gymnasium as gym
 import enflow as ef
 
+import matplotlib.pyplot as plt
+
 # Get the parent directory (one level up)
 parent_dir = Path.cwd().parent
 df_data = pd.read_csv(os.path.join(parent_dir, 'data', 'gefcom2014', 'gefcom2014-wind.csv'),
@@ -84,16 +86,20 @@ class GEFCom2014WindEnv(gym.Env):
 
         self.n_steps = len(self.test)
 
-    def reset(self, return_dataframe=False):
+    def reset(self):
         self.idx_counter = 0
         initial_dataframe = self.data.loc[(self.data.index.get_level_values('valid_datetime') >= self.train[self.idx_counter][0]) &
                                           (self.data.index.get_level_values('valid_datetime') <= self.train[self.idx_counter][1])]
+
+        initial_input = initial_dataframe.loc[:,(slice(None), env.input)]
+        initial_target = initial_dataframe.loc[:,(slice(None), env.target)]
+        initial_data = {"input": initial_input, "target": initial_target}
 
         first_input = self.data.loc[(self.data.index.get_level_values('valid_datetime') >= self.test[self.idx_counter][0]) &
                                     (self.data.index.get_level_values('valid_datetime') <= self.test[self.idx_counter][1]),
                                      pd.IndexSlice[:, self.input]]
 
-        return first_input, initial_dataframe
+        return initial_data, first_input
 
     def step(self, action=None):
 
@@ -122,7 +128,29 @@ class GEFCom2014WindEnv(gym.Env):
             self.idx_counter += 1
             
             return None, next_target, done
+
+
+    def plot_overall_results(self, losses, drop_tasks=None, n_top_teams=None, xlim=None):
+        df_scores = self.scores
+        df_scores = df_scores.assign(**losses)
+        df_scores = df_scores.drop(index=drop_tasks)
+        df_scores = df_scores.mean()
+        df_scores = df_scores.sort_values()
+
+        colors = [(0.66, 0.66, 0.66, 0.7)] * len(df_scores)
+        n = len(losses)
+        blues = [plt.cm.Blues(i / (n + 1)) for i in range(1, n + 1)]
+
+        for key_idx, key in enumerate(losses.keys()):
+            idx = list(df_scores.index).index(key)
+            colors[idx] = blues[key_idx]
+
+        ax = df_scores.plot.bar(color=colors)
+        ax.set_ylabel("Pinball loss")
+        if xlim: ax.set_xlim(0, xlim)
         
+        return ax
+
     def plot_results(self, losses, drop_tasks=None, n_top_teams=None, xlim=None):
         df_scores = self.scores
         df_scores = df_scores.assign(**losses)
@@ -225,7 +253,7 @@ env = GEFCom2014WindEnv(dataset=dataset)
 
 from enflow.problems.objective import PinballLoss
 
-obj = PinballLoss(quantiles=np.arange(0.1, 1, 0.1))
+obj = PinballLoss(quantiles=[0.1, 0.5, 0.9])#np.arange(0.1, 1, 0.1))
 
 from enflow import Problem
 
