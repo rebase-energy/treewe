@@ -69,10 +69,23 @@ def load_solar_track():
     # Unzip files
     extract_zip('../data/gefcom2014/GEFCom2014 Data/GEFCom2014-S_V2.zip')
 
-    # Get all explanatory and target data except for all tasks
-    df = pd.read_csv('../data/gefcom2014/GEFCom2014 Data/Solar/Task 15/predictors15.csv', header=0, index_col=1, parse_dates=True)
+    # Get all explanatory and target data for all tasks
+    df = pd.read_csv('./Solar/Task 15/predictors15.csv', header=0, index_col=1, parse_dates=True)
     df = df.pivot_table(index='TIMESTAMP', columns=['ZONEID'], values=['POWER', 'VAR78', 'VAR79', 'VAR134', 'VAR157', 'VAR164', 'VAR165', 'VAR166', 'VAR167', 'VAR169', 'VAR175', 'VAR178', 'VAR228'], dropna=False)
     df.columns = df.columns.swaplevel(i=0, j=1)
+
+    df = df.rename(columns={'POWER': 'Power'}, level=1)
+    site_names = ['Site'+str(i) for i in df.columns.levels[0]]
+    df.columns = df.columns.set_levels(site_names, level=0)
+
+    # Convert to standard indexing structure (ref_datetime, valid_datetime)
+    df.index.name = 'valid_datetime'
+    idx_ref_datetime = df.index.hour == 1
+    df.loc[idx_ref_datetime, 'ref_datetime'] = df.index[idx_ref_datetime]
+    df.loc[:, 'ref_datetime'] = df.loc[:, 'ref_datetime'].ffill()
+    df = df.set_index('ref_datetime', append=True)
+    df.index = df.index.reorder_levels(['ref_datetime', 'valid_datetime'])
+    df = df.sort_index()
 
     path = '../data/gefcom2014/gefcom2014-solar.csv'
     df.to_csv(path)

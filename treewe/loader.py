@@ -29,3 +29,13 @@ def load_problem(problem_name):
     except (ImportError, AttributeError) as e:
         raise ValueError(f"Could not load problem '{problem_name}': {e}")
 
+def load_dataset(problem_name):
+    module_name = f"treewe.problems.{problem_name.replace('-', '_')}"
+    try:
+        # Dynamically import the module
+        module = importlib.import_module(module_name)
+        # Get the problem name 
+        dataset = getattr(module, "dataset")
+        return dataset
+    except (ImportError, AttributeError) as e:
+        raise ValueError(f"Could not load dataset '{problem_name}': {e}")
