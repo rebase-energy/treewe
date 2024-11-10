@@ -1,6 +1,6 @@
 <div align="center">
 <h2 style="margin-top: 0px;">
-    📈 Tree-based predictions for weather and energy
+    🌳 Tree-based predictions for weather and energy
 </h2>
 </div>
 
